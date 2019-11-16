@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Pixel Generator</string>
+    <string name="action_save">Export to .png</string>
+    <string name="action_bg">Set as Background</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>
