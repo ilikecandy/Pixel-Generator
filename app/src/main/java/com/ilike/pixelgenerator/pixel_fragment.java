@@ -94,10 +94,12 @@ public class pixel_fragment extends Fragment {
 
         final String[] screenData = getScreenDimension();
 
-
+        x = 500;
+        y = 500;
 
         pixelSizeLength = rootView.findViewById(R.id.pixelLength);
         pixelSizeWidth = rootView.findViewById(R.id.pixelWidth);
+
 
 
         length.addTextChangedListener(new TextWatcher() {
@@ -127,7 +129,7 @@ public class pixel_fragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 pixelSizeWidth.setMax(Integer.parseInt(width.getText().toString()));
-                x = Integer.parseInt(length.getText().toString());
+                x = Integer.parseInt(width.getText().toString());
 
             }
 
@@ -141,6 +143,13 @@ public class pixel_fragment extends Fragment {
         pixelSizeLength.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
+                if (square.isChecked()) {
+                    if (pixelSizeLength.getProgress() <= pixelSizeWidth.getMax()) {
+                        pixelSizeWidth.setProgress(pixelSizeLength.getProgress());
+                        pixelSizeW = pixelSizeLength.getProgress();
+                        pixelSizeL = pixelSizeLength.getProgress();
+                    }
+                }
                 pixelSizeL = pixelSizeLength.getProgress();
 
             }
@@ -161,6 +170,13 @@ public class pixel_fragment extends Fragment {
         pixelSizeWidth.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
+                if (square.isChecked()) {
+                    if (pixelSizeWidth.getProgress() <= pixelSizeLength.getMax()) {
+                        pixelSizeLength.setProgress(pixelSizeWidth.getProgress());
+                        pixelSizeL = pixelSizeWidth.getProgress();
+                        pixelSizeW = pixelSizeWidth.getProgress();
+                    }
+                }
                 pixelSizeW = pixelSizeWidth.getProgress();
             }
 
@@ -179,7 +195,22 @@ public class pixel_fragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (square.isChecked()) {
-                    
+                    if (y > x) {
+                        pixelSizeLength.setMax(x);
+                    } else if (x > y) {
+                        pixelSizeWidth.setMax(y);
+                    }
+
+                    if (pixelSizeL > pixelSizeW) {
+                        pixelSizeL = pixelSizeW;
+                        pixelSizeLength.setProgress(pixelSizeWidth.getProgress());
+                    } else {
+                        pixelSizeWidth.setMax(x);
+                        pixelSizeLength.setMax(y);
+
+                        pixelSizeW = pixelSizeL;
+                        pixelSizeWidth.setProgress(pixelSizeLength.getProgress());
+                    }
                 }
             }
         });

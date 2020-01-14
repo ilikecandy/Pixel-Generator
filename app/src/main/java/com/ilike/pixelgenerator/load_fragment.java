@@ -25,6 +25,8 @@ import java.util.Random;
 import static android.app.ProgressDialog.STYLE_HORIZONTAL;
 import static android.graphics.Bitmap.createBitmap;
 import static com.ilike.pixelgenerator.pixel_fragment.length;
+import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
+import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
 import static com.ilike.pixelgenerator.pixel_fragment.smooth;
 import static com.ilike.pixelgenerator.pixel_fragment.width;
 
@@ -76,6 +78,9 @@ public class load_fragment extends Fragment {
 
         bar = rootView.findViewById(R.id.progressBar);
 
+        pixelSizeL = pixelSizeLength.getProgress();
+        pixelSizeW = pixelSizeWidth.getProgress();
+
        set = new ConstraintSet();
 
        /*dialog = new ProgressDialog(getActivity());
@@ -120,28 +125,14 @@ public class load_fragment extends Fragment {
 
 
     public static Bitmap paint() {
-
-
-
-
         int r, g, b;
 
         int pixels = 0;
-
-
 
         drawing.getLayoutParams().height = pixel_fragment.y;
         drawing.getLayoutParams().width = pixel_fragment.x;
 
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(pixel_fragment.x, pixel_fragment.y);
-
-        /*layoutParams.topToTop = R.id.parent;
-        layoutParams.bottomToBottom = R.id.parent;
-        layoutParams.leftToLeft = R.id.parent;
-        layoutParams.rightToRight = R.id.parent;
-        layoutParams.verticalBias = (float) 0.95;
-        layoutParams.horizontalBias = (float) 0.5;*/
-
 
         minR = (int) pixel_fragment.minimumR.getSelectedMinValue();
         minG = (int) pixel_fragment.minimumG.getSelectedMinValue();
@@ -183,8 +174,6 @@ public class load_fragment extends Fragment {
                 }
 
             }
-
-
 
         if (smooth.isChecked()) {
             newBitmap = Bitmap.createScaledBitmap(
