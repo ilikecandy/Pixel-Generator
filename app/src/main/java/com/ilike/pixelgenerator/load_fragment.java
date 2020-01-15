@@ -7,8 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
@@ -18,22 +16,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.Random;
 
-import static android.app.ProgressDialog.STYLE_HORIZONTAL;
 import static android.graphics.Bitmap.createBitmap;
-import static com.ilike.pixelgenerator.pixel_fragment.length;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
 import static com.ilike.pixelgenerator.pixel_fragment.smooth;
-import static com.ilike.pixelgenerator.pixel_fragment.width;
 
 public class load_fragment extends Fragment {
 
     static ImageView drawing;
-    static  Button generate;
+    static Button generate;
 
     static int minR;
     static int minG;
@@ -46,21 +41,22 @@ public class load_fragment extends Fragment {
     static int pixelSizeW;
 
 
+    static Random random = new Random();
+    static Paint paint = new Paint();
 
-    static  Random random = new Random();
-     static  Paint paint = new Paint();
+    static Bitmap myBitmap;
+    static Canvas canvas;
+    static Bitmap tempBitmap;
 
-     static  Bitmap myBitmap;
-     static  Canvas canvas;
-     static  Bitmap tempBitmap;
+    static Bitmap newBitmap;
 
-     static  Bitmap newBitmap;
+    static ConstraintLayout layout;
+    static ConstraintSet set;
 
-     static ConstraintLayout layout;
-     static ConstraintSet set;
+    public static ProgressBar bar;
+    static ProgressDialog dialog;
 
-     public static ProgressBar bar;
-     static ProgressDialog dialog;
+    static Context context;
 
 
     public static int percent;
@@ -68,6 +64,8 @@ public class load_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        context = getActivity();
 
         View rootView = inflater.inflate(R.layout.fragment_load, container, false);
 
@@ -81,7 +79,7 @@ public class load_fragment extends Fragment {
         pixelSizeL = pixelSizeLength.getProgress();
         pixelSizeW = pixelSizeWidth.getProgress();
 
-       set = new ConstraintSet();
+        set = new ConstraintSet();
 
        /*dialog = new ProgressDialog(getActivity());
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -94,15 +92,14 @@ public class load_fragment extends Fragment {
                */
 
 
-        layout = (ConstraintLayout) rootView.findViewById(R.id.constraintLayout);
+        layout = rootView.findViewById(R.id.constraintLayout);
 
 
         myBitmap = createBitmap(Integer.parseInt(pixel_fragment.width.getText().toString()) / pixelSizeW,
                 Integer.parseInt(pixel_fragment.length.getText().toString()) / pixelSizeL, Bitmap.Config.RGB_565);
         canvas = new Canvas(myBitmap);
 
-        tempBitmap  = createBitmap(myBitmap.getWidth(), myBitmap.getHeight(), Bitmap.Config.RGB_565);
-
+        tempBitmap = createBitmap(myBitmap.getWidth(), myBitmap.getHeight(), Bitmap.Config.RGB_565);
 
 
         //startDialog();
@@ -111,23 +108,18 @@ public class load_fragment extends Fragment {
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 paint();
                 //startDialog();
-
             }
         });
 
+
+
         return rootView;
     }
-    static String temp = "";
-     Context context = getActivity();
-
 
     public static Bitmap paint() {
         int r, g, b;
-
-        int pixels = 0;
 
         drawing.getLayoutParams().height = pixel_fragment.y;
         drawing.getLayoutParams().width = pixel_fragment.x;
@@ -149,38 +141,43 @@ public class load_fragment extends Fragment {
 
         drawing.setLayoutParams(layoutParams);
 
-        for (int i = 0; i < myBitmap.getHeight(); i++) {
-            //dialog.setProgress(currentPixel);
-           // drawing.setImageBitmap(newBitmap);
+        try {
 
-
-            for (int j = 0; j < myBitmap.getWidth(); j++) {
-                r = random.nextInt(maxR - minR + 1) + minR;
-                g = random.nextInt(maxG - minG + 1) + minG;
-                b = random.nextInt(maxB - minB + 1) + minB;
-                myBitmap.setPixel(j, i, Color.rgb(r,g,b));
-
-                //currentPixel = (i+1) * (j+1);
+            for (int i = 0; i < myBitmap.getHeight(); i++) {
                 //dialog.setProgress(currentPixel);
-                 //       + " out of " + dialog.getMax() / pixelSize + " pixels generated");
-                //if (i * j == (myBitmap.getWidth() * myBitmap.getHeight())) {
+                // drawing.setImageBitmap(newBitmap);
+
+
+                for (int j = 0; j < myBitmap.getWidth(); j++) {
+                    r = random.nextInt(maxR - minR + 1) + minR;
+                    g = random.nextInt(maxG - minG + 1) + minG;
+                    b = random.nextInt(maxB - minB + 1) + minB;
+                    myBitmap.setPixel(j, i, Color.rgb(r, g, b));
+
+                    //currentPixel = (i+1) * (j+1);
+                    //dialog.setProgress(currentPixel);
+                    //       + " out of " + dialog.getMax() / pixelSize + " pixels generated");
+                    //if (i * j == (myBitmap.getWidth() * myBitmap.getHeight())) {
                     //dialog.dismiss();
-                   // dialog.cancel();
-                //}
-                //pixels++;
-                //if ((myBitmap.getWidth() * myBitmap.getHeight()) / 100 == pixels) {
+                    // dialog.cancel();
+                    //}
+                    //pixels++;
+                    //if ((myBitmap.getWidth() * myBitmap.getHeight()) / 100 == pixels) {
                     //pixels = 0;
                     //percent++;
                 }
 
             }
+        } catch (Exception e) {
+            Toast.makeText(context, "An error has occurred", Toast.LENGTH_SHORT).show();
+        }
 
         if (smooth.isChecked()) {
             newBitmap = Bitmap.createScaledBitmap(
-                    myBitmap,drawing.getLayoutParams().width, drawing.getLayoutParams().height, true);
+                    myBitmap, drawing.getLayoutParams().width, drawing.getLayoutParams().height, true);
         } else {
             newBitmap = Bitmap.createScaledBitmap(
-                    myBitmap,drawing.getLayoutParams().width, drawing.getLayoutParams().height, false);
+                    myBitmap, drawing.getLayoutParams().width, drawing.getLayoutParams().height, false);
         }
 
 
@@ -188,11 +185,11 @@ public class load_fragment extends Fragment {
         drawing.setImageBitmap(newBitmap);
 
 
-       // set.clone(layout);
+        // set.clone(layout);
         // Comment out line above and uncomment line below to make the connection.
-       // set.connect(R.id.bitmap, ConstraintSet.TOP, R.id.layout, ConstraintSet.TOP, 0);
-       // set.connect(R.id.bitmap, ConstraintSet.BOTTOM, R.id.btn_generate, ConstraintSet.BOTTOM, 0);
-       // set.connect(R.id.bitmap, ConstraintSet.LEFT, R.id.layout, ConstraintSet.LEFT, 0);
+        // set.connect(R.id.bitmap, ConstraintSet.TOP, R.id.layout, ConstraintSet.TOP, 0);
+        // set.connect(R.id.bitmap, ConstraintSet.BOTTOM, R.id.btn_generate, ConstraintSet.BOTTOM, 0);
+        // set.connect(R.id.bitmap, ConstraintSet.LEFT, R.id.layout, ConstraintSet.LEFT, 0);
         //set.connect(R.id.bitmap, ConstraintSet.RIGHT, R.id.btn_generate, ConstraintSet.RIGHT, 0);
 
 
@@ -240,7 +237,7 @@ public class load_fragment extends Fragment {
 */
 
 
-    }
+}
 
 
 

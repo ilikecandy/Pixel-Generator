@@ -110,8 +110,10 @@ public class pixel_fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                pixelSizeLength.setMax(Integer.parseInt(length.getText().toString()));
-                y = Integer.parseInt(length.getText().toString());
+                if (!length.getText().toString().equals("")) {
+                    pixelSizeLength.setMax(Integer.parseInt(length.getText().toString()));
+                    y = Integer.parseInt(length.getText().toString());
+                }
             }
 
             @Override
@@ -128,9 +130,10 @@ public class pixel_fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                pixelSizeWidth.setMax(Integer.parseInt(width.getText().toString()));
-                x = Integer.parseInt(width.getText().toString());
-
+                if (!width.getText().toString().equals("")) {
+                    pixelSizeWidth.setMax(Integer.parseInt(width.getText().toString()));
+                    x = Integer.parseInt(width.getText().toString());
+                }
             }
 
             @Override

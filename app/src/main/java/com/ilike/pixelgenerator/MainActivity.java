@@ -47,6 +47,7 @@ import static com.ilike.pixelgenerator.load_fragment.set;
 import static com.ilike.pixelgenerator.pixel_fragment.length;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
+import static com.ilike.pixelgenerator.pixel_fragment.width;
 import static com.ilike.pixelgenerator.pixel_fragment.x;
 import static com.ilike.pixelgenerator.pixel_fragment.y;
 
@@ -54,6 +55,8 @@ import static com.ilike.pixelgenerator.pixel_fragment.y;
 public class MainActivity extends AppCompatActivity {
 
     static String date;
+
+    static String path;
 
 
     /**
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        path = "/storage/emulated/0/Pictures/PixelBackgrounds/";
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,32 +109,45 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
                 fab.setOnClickListener(new View.OnClickListener() {
                     boolean clicked = false;
                     @Override
                     public void onClick(View view) {
 
                         //setting buttons start now
+                        if (!length.getText().toString().equals("") && !width.getText().toString().equals("")) {
+                            if (Integer.parseInt(length.getText().toString()) != 0 &&
+                                    Integer.parseInt(width.getText().toString()) != 0) {
 
-                        if (clicked) {
-                            mViewPager.setCurrentItem(4);
-                            Toast t = Toast.makeText(MainActivity.this,
-                                    "Regenerating", Toast.LENGTH_SHORT);
-                            t.show();
-                            //load_fragment.startDialog();
-                            paint();
-                            t.cancel();
+                                if (clicked) {
+                                    mViewPager.setCurrentItem(4);
+                                    Toast t = Toast.makeText(MainActivity.this,
+                                            "Regenerating", Toast.LENGTH_SHORT);
+                                    t.show();
+                                    //load_fragment.startDialog();
+                                    paint();
+                                    t.cancel();
+                                } else {
+                                    mViewPager.setCurrentItem(4);
+                                    Toast t = Toast.makeText(MainActivity.this,
+                                            "Generating", Toast.LENGTH_SHORT);
+                                    t.show();
+                                    //load_fragment.startDialog();
+                                    paint();
+                                    t.cancel();
+                                    clicked = true;
+                                }
+                            } else {
+                                Toast.makeText(MainActivity.this,
+                                        "Check your settings and try again.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            mViewPager.setCurrentItem(4);
-                            Toast t = Toast.makeText(MainActivity.this,
-                                    "Generating", Toast.LENGTH_SHORT);
-                            t.show();
-                            //load_fragment.startDialog();
-                            paint();
-                            t.cancel();
-                            clicked = true;
+                            Toast.makeText(MainActivity.this,
+                                    "Check your settings and try again.", Toast.LENGTH_SHORT).show();
                         }
+
+
 
 
             }
@@ -143,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //setting buttons start now
-
                 mViewPager.setCurrentItem(0);
+
 
             }
         });
@@ -329,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             date = simpleDateFormat.format(new Date());
 
-            String path = pref.getString("location", "Error loading location");
+            path = pref.getString("location", "/storage/emulated/0/Pictures/PixelBackgrounds/");
 
             verifyStoragePermissions(MainActivity.this);
             ContextWrapper cw = new ContextWrapper(getApplicationContext());
