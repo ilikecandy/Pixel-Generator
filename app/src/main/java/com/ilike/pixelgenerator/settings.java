@@ -1,27 +1,22 @@
 package com.ilike.pixelgenerator;
 
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static com.ilike.pixelgenerator.MainActivity.editor;
-import static com.ilike.pixelgenerator.MainActivity.pref;
 
 public class settings extends AppCompatActivity {
 
-    //Button save;
     static EditText location;
     Button save;
 
-
-
-
-    public static long l;
-
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +26,18 @@ public class settings extends AppCompatActivity {
         getSupportActionBar().setTitle("Settings");
 
 
-
-        pref  = getApplicationContext().getSharedPreferences("prefs", MODE_PRIVATE);
+        pref = getApplicationContext().getSharedPreferences("prefs", MODE_PRIVATE);
         editor = pref.edit();
 
 
-        Boolean value = pref.getBoolean("default" , false);
+        Boolean value = pref.getBoolean("default", false);
 
         location = findViewById(R.id.location);
         save = findViewById(R.id.save);
 
 
         if (!value) {
-            editor.putBoolean("default" , true);
+            editor.putBoolean("default", true);
             editor.commit();
             editor.putString("location", "/storage/emulated/0/Pictures/PixelBackgrounds");
             editor.commit();
@@ -68,7 +62,6 @@ public class settings extends AppCompatActivity {
     public void edits() {
         editor.putString("location", location.getText().toString());
         editor.commit();
-
     }
 
 

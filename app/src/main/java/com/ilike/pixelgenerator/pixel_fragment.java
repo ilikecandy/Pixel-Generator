@@ -1,27 +1,17 @@
 package com.ilike.pixelgenerator;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.warkiz.tickseekbar.OnSeekChangeListener;
 import com.warkiz.tickseekbar.SeekParams;
@@ -32,13 +22,11 @@ import org.florescu.android.rangeseekbar.RangeSeekBar;
 import static com.ilike.pixelgenerator.load_fragment.pixelSizeL;
 import static com.ilike.pixelgenerator.load_fragment.pixelSizeW;
 
-
 public class pixel_fragment extends Fragment {
 
 
     static EditText length;
     static EditText width;
-
 
     static Switch smooth;
     static Switch square;
@@ -46,20 +34,11 @@ public class pixel_fragment extends Fragment {
 
     static TickSeekBar pixelSizeLength;
     static TickSeekBar pixelSizeWidth;
-
-
-    ImageView minus;
-    ImageView plus;
-
     static RangeSeekBar minimumR;
     static RangeSeekBar minimumG;
     static RangeSeekBar minimumB;
-
-    TextView display;
-
     static int x;
     static int y;
-
     Button current;
 
     @Override
@@ -77,29 +56,15 @@ public class pixel_fragment extends Fragment {
         current = rootView.findViewById(R.id.current);
 
         minimumR = rootView.findViewById(R.id.minimumR);
-
-       minimumR.setSelectedMaxValue(255);
-       minimumR.setSelectedMinValue(0);
-
-       minimumG = rootView.findViewById(R.id.minimumG);
-
-       minimumG.setSelectedMaxValue(255);
-       minimumG.setSelectedMinValue(0);
-
-       minimumB = rootView.findViewById(R.id.minimumB);
-
-       minimumB.setSelectedMaxValue(255);
-       minimumB.setSelectedMinValue(0);
+        minimumG = rootView.findViewById(R.id.minimumG);
+        minimumB = rootView.findViewById(R.id.minimumB);
 
 
         final String[] screenData = getScreenDimension();
 
-        x = 500;
-        y = 500;
 
         pixelSizeLength = rootView.findViewById(R.id.pixelLength);
         pixelSizeWidth = rootView.findViewById(R.id.pixelWidth);
-
 
 
         length.addTextChangedListener(new TextWatcher() {
@@ -169,7 +134,6 @@ public class pixel_fragment extends Fragment {
         });
 
 
-
         pixelSizeWidth.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
@@ -219,20 +183,21 @@ public class pixel_fragment extends Fragment {
         });
 
 
+        current.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                length.setText(screenData[1]);
+                width.setText(screenData[0]);
+            }
+        });
 
-
-       current.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               length.setText(screenData[1]);
-               width.setText(screenData[0]);
-           }
-       });
+        refreshXY();
 
 
         return rootView;
     }
-    private String[] getScreenDimension(){
+
+    private String[] getScreenDimension() {
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -243,4 +208,11 @@ public class pixel_fragment extends Fragment {
 
         return screenInformation;
     }
+
+    public static void refreshXY() {
+        x = Integer.parseInt(width.getText().toString());
+        y = Integer.parseInt(length.getText().toString());
+    }
 }
+
+
