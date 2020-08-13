@@ -1,13 +1,19 @@
 package com.ilike.pixelgenerator;
 
+import android.content.Context;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Dimension;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -24,22 +30,27 @@ import static com.ilike.pixelgenerator.load_fragment.pixelSizeW;
 
 public class pixel_fragment extends Fragment {
 
-
     static EditText length;
     static EditText width;
 
     static Switch smooth;
     static Switch square;
 
-
     static TickSeekBar pixelSizeLength;
     static TickSeekBar pixelSizeWidth;
+
     static RangeSeekBar minimumR;
     static RangeSeekBar minimumG;
     static RangeSeekBar minimumB;
-    static int x;
-    static int y;
+
+    static int resX;
+    static int resY;
     Button current;
+
+    public static void refreshXY() {
+        resX = Integer.parseInt(width.getText().toString());
+        resY = Integer.parseInt(length.getText().toString());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +60,6 @@ public class pixel_fragment extends Fragment {
         length = rootView.findViewById(R.id.length);
         width = rootView.findViewById(R.id.width);
 
-
         smooth = rootView.findViewById(R.id.smooth);
         square = rootView.findViewById(R.id.square);
 
@@ -58,10 +68,6 @@ public class pixel_fragment extends Fragment {
         minimumR = rootView.findViewById(R.id.minimumR);
         minimumG = rootView.findViewById(R.id.minimumG);
         minimumB = rootView.findViewById(R.id.minimumB);
-
-
-        final String[] screenData = getScreenDimension();
-
 
         pixelSizeLength = rootView.findViewById(R.id.pixelLength);
         pixelSizeWidth = rootView.findViewById(R.id.pixelWidth);
@@ -75,9 +81,9 @@ public class pixel_fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!length.getText().toString().equals("")) {
-                    pixelSizeLength.setMax(Integer.parseInt(length.getText().toString()));
-                    y = Integer.parseInt(length.getText().toString());
+                refreshXY();
+                if (!String.valueOf(resY).equals("")) {
+                    pixelSizeLength.setMax(Integer.parseInt(String.valueOf(resY)));
                 }
             }
 
@@ -95,9 +101,9 @@ public class pixel_fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!width.getText().toString().equals("")) {
-                    pixelSizeWidth.setMax(Integer.parseInt(width.getText().toString()));
-                    x = Integer.parseInt(width.getText().toString());
+                refreshXY();
+                if (!String.valueOf(resX).equals("")) {
+                    pixelSizeWidth.setMax(Integer.parseInt(String.valueOf(resX)));
                 }
             }
 
@@ -162,18 +168,18 @@ public class pixel_fragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (square.isChecked()) {
-                    if (y > x) {
-                        pixelSizeLength.setMax(x);
-                    } else if (x > y) {
-                        pixelSizeWidth.setMax(y);
+                    if (resY > resX) {
+                        pixelSizeLength.setMax(resX);
+                    } else if (resX > resY) {
+                        pixelSizeWidth.setMax(resY);
                     }
 
                     if (pixelSizeL > pixelSizeW) {
                         pixelSizeL = pixelSizeW;
                         pixelSizeLength.setProgress(pixelSizeWidth.getProgress());
                     } else {
-                        pixelSizeWidth.setMax(x);
-                        pixelSizeLength.setMax(y);
+                        pixelSizeWidth.setMax(resX);
+                        pixelSizeLength.setMax(resY);
 
                         pixelSizeW = pixelSizeL;
                         pixelSizeWidth.setProgress(pixelSizeLength.getProgress());
@@ -182,18 +188,16 @@ public class pixel_fragment extends Fragment {
             }
         });
 
-
         current.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String[] screenData = getScreenDimension();
                 length.setText(screenData[1]);
                 width.setText(screenData[0]);
             }
         });
 
         refreshXY();
-
-
         return rootView;
     }
 
@@ -207,11 +211,6 @@ public class pixel_fragment extends Fragment {
         screenInformation[1] = String.valueOf(height);
 
         return screenInformation;
-    }
-
-    public static void refreshXY() {
-        x = Integer.parseInt(width.getText().toString());
-        y = Integer.parseInt(length.getText().toString());
     }
 }
 

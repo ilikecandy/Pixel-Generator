@@ -1,29 +1,81 @@
 package com.ilike.pixelgenerator;
 
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.Random;
 
 import static android.graphics.Bitmap.createBitmap;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
+import static com.ilike.pixelgenerator.pixel_fragment.smooth;
+import static com.ilike.pixelgenerator.pixel_fragment.resX;
+import static com.ilike.pixelgenerator.pixel_fragment.resY;
 
 public class load_fragment extends Fragment {
 
 
     public static View rootView;
+    public static Bitmap myBitmap;
     static int pixelSizeL;
     static int pixelSizeW;
-    static Paint paint = new Paint();
-    static Canvas canvas;
-    static Bitmap tempBitmap;
-    static ConstraintLayout layout;
+
+    public static void PaintCanvas(Context context) {
+        Random random = new Random();
+
+        int[] minRGB = new int[3];
+        int[] maxRGB = new int[3];
+
+        ImageView drawing;
+        drawing = rootView.findViewById(R.id.bitmap);
+
+        myBitmap = createBitmap(resX / pixelSizeW, resY / pixelSizeL, Bitmap.Config.RGB_565);
+
+        minRGB[0] = (int) pixel_fragment.minimumR.getSelectedMinValue();
+        minRGB[1] = (int) pixel_fragment.minimumG.getSelectedMinValue();
+        minRGB[2] = (int) pixel_fragment.minimumB.getSelectedMinValue();
+
+        maxRGB[0] = (int) pixel_fragment.minimumR.getSelectedMaxValue();
+        maxRGB[1] = (int) pixel_fragment.minimumG.getSelectedMaxValue();
+        maxRGB[2] = (int) pixel_fragment.minimumB.getSelectedMaxValue();
+
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(resX, resY);
+        drawing.setLayoutParams(layoutParams);
+
+        int r, g, b;
+        try {
+            for (int i = 0; i < myBitmap.getHeight(); i++) {
+                for (int j = 0; j < myBitmap.getWidth(); j++) {
+                    r = random.nextInt(maxRGB[0] - minRGB[0] + 1) + minRGB[0];
+                    g = random.nextInt(maxRGB[1] - minRGB[1] + 1) + minRGB[1];
+                    b = random.nextInt(maxRGB[2] - minRGB[2] + 1) + minRGB[2];
+                    myBitmap.setPixel(j, i, Color.rgb(r, g, b));
+                }
+
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, "An error has occurred", Toast.LENGTH_SHORT).show();
+        }
+
+        if (smooth.isChecked()) {
+            myBitmap = Bitmap.createScaledBitmap(
+                    myBitmap, resX, resY, true);
+        } else {
+            myBitmap = Bitmap.createScaledBitmap(
+                    myBitmap, resX, resY, false);
+        }
+
+        drawing.setImageBitmap(myBitmap);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,34 +83,8 @@ public class load_fragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_load, container, false);
 
-        paint.setStyle(Paint.Style.STROKE);
-
-
         pixelSizeL = pixelSizeLength.getProgress();
         pixelSizeW = pixelSizeWidth.getProgress();
-
-
-        layout = rootView.findViewById(R.id.constraintLayout);
-
-
-        final PaintCanvas pc = new PaintCanvas();
-        pc.myBitmap = createBitmap(Integer.parseInt(pixel_fragment.width.getText().toString()) / pixelSizeW,
-                Integer.parseInt(pixel_fragment.length.getText().toString()) / pixelSizeL, Bitmap.Config.RGB_565);
-        canvas = new Canvas(pc.myBitmap);
-
-        tempBitmap = createBitmap(pc.myBitmap.getWidth(), pc.myBitmap.getHeight(), Bitmap.Config.RGB_565);
-
-
-        //startDialog();
-        pc.PaintCanvas(rootView, getContext());
-
-        pc.generate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pc.PaintCanvas(rootView, getContext());
-                //startDialog();
-            }
-        });
 
         return rootView;
     }

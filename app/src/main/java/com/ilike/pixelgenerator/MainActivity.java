@@ -13,16 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import static com.ilike.pixelgenerator.load_fragment.pixelSizeL;
 import static com.ilike.pixelgenerator.load_fragment.pixelSizeW;
-import static com.ilike.pixelgenerator.pixel_fragment.length;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
-import static com.ilike.pixelgenerator.pixel_fragment.width;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         rootView = getLayoutInflater().inflate(R.layout.fragment_load, null);
 
-        final PaintCanvas pc = new PaintCanvas();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -71,56 +66,19 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-            boolean clicked = false;
-
             @Override
             public void onClick(View view1) {
-
-                //setting buttons start now
-                if (!length.getText().toString().equals("") && !width.getText().toString().equals("")) {
-                    if (Integer.parseInt(length.getText().toString()) != 0 &&
-                            Integer.parseInt(width.getText().toString()) != 0) {
-
-                        if (clicked) {
-                            Toast t = Toast.makeText(MainActivity.this,
-                                    "Done", Toast.LENGTH_SHORT);
-                            t.show();
-                            mViewPager.setCurrentItem(4);
-                            PaintCanvas pc = new PaintCanvas();
-                            pc.PaintCanvas(rootView, MainActivity.this);
-
-                        } else {
-                            Toast t = Toast.makeText(MainActivity.this,
-                                    "Done", Toast.LENGTH_SHORT);
-                            t.show();
-                            mViewPager.removeAllViews();
-                            mViewPager.setCurrentItem(4);
-                            clicked = true;
-                        }
-                    } else {
-                        Toast.makeText(MainActivity.this,
-                                "Check your settings and try again.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            "Check your settings and try again.", Toast.LENGTH_SHORT).show();
-                }
-
-
+                mViewPager.setCurrentItem(4);
+                load_fragment.PaintCanvas(getApplicationContext());
             }
         });
 
-        FloatingActionButton fab2 = findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            boolean clicked = false;
-
+        FloatingActionButton backFab = findViewById(R.id.fab2);
+        backFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //setting buttons start now
                 mViewPager.setCurrentItem(0);
-
-
             }
         });
 
@@ -135,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        PaintCanvas pc = new PaintCanvas();
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -144,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
 
-            SaveBitmapAsImage.SaveBitmapAsImage(getParent(), getApplicationContext());
+            SaveBitmapAsImage.SaveBitmapAsImage(getApplicationContext());
 
             return true;
         } else if (id == R.id.action_bg) {
@@ -152,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     WallpaperManager.getInstance(getApplicationContext());
 
             try {
-                wallpaperManager.setBitmap(PaintCanvas.newBitmap);
+                wallpaperManager.setBitmap(load_fragment.myBitmap);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

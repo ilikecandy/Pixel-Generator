@@ -1,13 +1,17 @@
 package com.ilike.pixelgenerator;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.File;
 
 
 public class settings extends AppCompatActivity {
@@ -25,44 +29,34 @@ public class settings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Settings");
 
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        i.addCategory(Intent.CATEGORY_DEFAULT);
+        startActivityForResult(Intent.createChooser(i, "Choose directory"), 9999);
 
         pref = getApplicationContext().getSharedPreferences("prefs", MODE_PRIVATE);
         editor = pref.edit();
 
-
-        Boolean value = pref.getBoolean("default", false);
-
         location = findViewById(R.id.location);
+        location.setText(pref.getString("location", "Error"));
+
         save = findViewById(R.id.save);
-
-
-        if (!value) {
-            editor.putBoolean("default", true);
-            editor.commit();
-            editor.putString("location", "/storage/emulated/0/Pictures/PixelBackgrounds");
-            editor.commit();
-            String area = pref.getString("location", "No location set. Error 1");
-            location.setText(area);
-        } else {
-            String area = pref.getString("location", "No location set. Error 2");
-            location.setText(area);
-        }
-
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edits();
+                editor.putString("location", location.getText().toString());
+                editor.apply();
                 Toast.makeText(settings.this, "Saved!", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    public void edits() {
-        editor.putString("location", location.getText().toString());
-        editor.commit();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 123 && resultCode == RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
+        }
     }
-
-
 }
