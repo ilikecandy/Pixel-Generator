@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".settings"
+        <activity android:name=".FolderPicker"/>
+
+        <activity
+            android:name=".settings"
             android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MainActivity"
@@ -23,6 +26,7 @@
         </activity>
 
     </application>
+
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

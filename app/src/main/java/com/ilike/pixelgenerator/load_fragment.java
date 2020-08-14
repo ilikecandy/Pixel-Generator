@@ -17,9 +17,9 @@ import java.util.Random;
 import static android.graphics.Bitmap.createBitmap;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
 import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
-import static com.ilike.pixelgenerator.pixel_fragment.smooth;
 import static com.ilike.pixelgenerator.pixel_fragment.resX;
 import static com.ilike.pixelgenerator.pixel_fragment.resY;
+import static com.ilike.pixelgenerator.pixel_fragment.smooth;
 
 public class load_fragment extends Fragment {
 

@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:screenOrientation="portrait"
-    tools:context=".MainActivity$PlaceholderFragment">
+    tools:context=".MainActivity$">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_shape"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/guideline10"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="4dp"
             android:layout_weight="0.5"
-            android:background="@android:color/holo_green_dark"
+            android:background="@drawable/btn_rounded_current"
             android:fontFamily="@font/montserrat"
             android:text="Get Screen Size"
             android:textColor="@android:color/background_light"
@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
             android:layout_weight="0.5"
-            android:background="@android:color/holo_orange_light"
+            android:background="@drawable/btn_rounded_placeholder"
             android:fontFamily="@font/montserrat"
             android:text="Button" />
     </LinearLayout>
@@ -129,7 +129,13 @@
             app:tsb_min="1"
             app:tsb_progress="1"
             app:tsb_show_thumb_text="above"
-            app:tsb_show_tick_texts="below" />
+            app:tsb_show_tick_texts="below"
+            app:tsb_thumb_color="#0277BD"
+            app:tsb_track_progress_color="#303F9F"
+            app:tsb_thumb_text_color="#0097A7"
+            app:tsb_track_progress_size="6dp"
+            app:tsb_thumb_size="16dp"
+            app:tsb_tick_texts_size="16dp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -159,7 +165,13 @@
             app:tsb_min="1"
             app:tsb_progress="1"
             app:tsb_show_thumb_text="above"
-            app:tsb_show_tick_texts="below" />
+            app:tsb_show_tick_texts="below"
+            app:tsb_thumb_color="#0277BD"
+            app:tsb_track_progress_color="#303F9F"
+            app:tsb_thumb_text_color="#0097A7"
+            app:tsb_track_progress_size="6dp"
+            app:tsb_thumb_size="16dp"
+            app:tsb_tick_texts_size="16dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -199,7 +211,8 @@
             app:absoluteMaxValue="0"
             app:absoluteMinValue="255"
             app:showLabels="false"
-            app:valuesAboveThumbs="true" />
+            app:valuesAboveThumbs="true"
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
             android:id="@+id/minimumB"
