@@ -28,8 +28,8 @@ public class FolderAdapter extends ArrayAdapter<FilePojo> {
         LayoutInflater inflater = context.getLayoutInflater();
         convertView = inflater.inflate(R.layout.fp_filerow, parent, false);
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.fp_iv_icon);
-        TextView name = (TextView) convertView.findViewById(R.id.fp_tv_name);
+        ImageView imageView = convertView.findViewById(R.id.fp_iv_icon);
+        TextView name = convertView.findViewById(R.id.fp_tv_name);
 
         if (dataList.get(position).isFolder()) {
             imageView.setImageResource(R.drawable.fp_folder);

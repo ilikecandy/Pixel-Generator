@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.ilike.pixelgenerator.load_fragment.myBitmap;
+import static com.ilike.pixelgenerator.Fragment_Canvas.myBitmap;
 
 public class SaveBitmapAsImage {
 
@@ -32,6 +32,10 @@ public class SaveBitmapAsImage {
         File appDirectory = new File(path);
         appDirectory.mkdirs();
         File file = new File(path, date + ".png");
+
+        if (!path.endsWith("/") || !path.endsWith("\\")) {
+            path = path + "/";
+        }
         Toast.makeText(context, "Saved to " + path + date + ".png", Toast.LENGTH_SHORT).show();
 
         Log.d("path", file.toString());

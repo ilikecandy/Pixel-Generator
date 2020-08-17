@@ -12,6 +12,43 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_shape"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/smooth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="Gradient Pixels"
+            android:thumbTint="#FF8A65" />
+
+        <Switch
+            android:id="@+id/switch_square"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="Square Pixels"
+            android:thumbTint="#FF8A65" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_buttons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_shape"
@@ -22,9 +59,9 @@
         app:layout_constraintTop_toTopOf="@+id/guideline7">
 
         <Button
-            android:id="@+id/current"
+            android:id="@+id/btn_currentres"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:layout_weight="0.5"
             android:background="@drawable/btn_rounded_current"
@@ -36,54 +73,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/btn_rounded_placeholder"
-            android:fontFamily="@font/montserrat"
-            android:text="Button" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/length"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:inputType="number"
-        android:maxLength="4"
-        android:text="500"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
-
-
-    <EditText
-        android:id="@+id/width"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:inputType="number"
-        android:maxLength="4"
-        android:text="500"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toStartOf="@+id/guideline12"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <LinearLayout
         android:id="@+id/ll_pixelSize"
@@ -93,12 +83,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:orientation="vertical"
         android:background="@drawable/rounded_shape"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline10">
+        app:layout_constraintTop_toTopOf="@+id/guideline10"
+        app:layout_constraintVertical_bias="0.6">
 
         <TextView
             android:id="@+id/textView"
@@ -110,13 +101,14 @@
             android:gravity="center"
             android:text="Pixel Length"
             android:textColor="@android:color/black"
-            app:layout_constraintBottom_toTopOf="@+id/pixelLength"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/tsb_pixelL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
         <com.warkiz.tickseekbar.TickSeekBar
-            android:id="@+id/pixelLength"
+            android:id="@+id/tsb_pixelL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -131,11 +123,11 @@
             app:tsb_show_thumb_text="above"
             app:tsb_show_tick_texts="below"
             app:tsb_thumb_color="#0277BD"
-            app:tsb_track_progress_color="#303F9F"
-            app:tsb_thumb_text_color="#0097A7"
-            app:tsb_track_progress_size="6dp"
             app:tsb_thumb_size="16dp"
-            app:tsb_tick_texts_size="16dp" />
+            app:tsb_thumb_text_color="#0097A7"
+            app:tsb_tick_texts_size="16dp"
+            app:tsb_track_progress_color="#303F9F"
+            app:tsb_track_progress_size="6dp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -147,13 +139,14 @@
             android:gravity="center"
             android:text="Pixel Width"
             android:textColor="@android:color/black"
-            app:layout_constraintBottom_toTopOf="@+id/pixelWidth"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/tsb_pizelW"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pixelLength" />
+            app:layout_constraintTop_toBottomOf="@+id/tsb_pixelL" />
 
         <com.warkiz.tickseekbar.TickSeekBar
-            android:id="@+id/pixelWidth"
+            android:id="@+id/tsb_pizelW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -167,12 +160,13 @@
             app:tsb_show_thumb_text="above"
             app:tsb_show_tick_texts="below"
             app:tsb_thumb_color="#0277BD"
-            app:tsb_track_progress_color="#303F9F"
-            app:tsb_thumb_text_color="#0097A7"
-            app:tsb_track_progress_size="6dp"
             app:tsb_thumb_size="16dp"
-            app:tsb_tick_texts_size="16dp" />
+            app:tsb_thumb_text_color="#0097A7"
+            app:tsb_tick_texts_size="16dp"
+            app:tsb_track_progress_color="#303F9F"
+            app:tsb_track_progress_size="6dp" />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -181,19 +175,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:orientation="vertical"
         android:background="@drawable/rounded_shape"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_pixelSize">
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
-            android:id="@+id/minimumR"
+            android:id="@+id/rsb_minR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:background="#B3E53935"
+            android:background="@drawable/btn_rounded_red"
             android:soundEffectsEnabled="true"
             app:absoluteMaxValue="0"
             app:absoluteMinValue="255"
@@ -201,26 +195,25 @@
             app:valuesAboveThumbs="true" />
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
-            android:id="@+id/minimumG"
+            android:id="@+id/rsb_minG"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:background="#B343A047"
+            android:background="@drawable/btn_rounded_green"
             android:soundEffectsEnabled="true"
             app:absoluteMaxValue="0"
             app:absoluteMinValue="255"
             app:showLabels="false"
-            app:valuesAboveThumbs="true"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            app:valuesAboveThumbs="true" />
 
         <org.florescu.android.rangeseekbar.RangeSeekBar
-            android:id="@+id/minimumB"
+            android:id="@+id/rsb_minB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:background="#B33949AB"
+            android:background="@drawable/btn_rounded_blue"
             android:scrollbarSize="4dp"
             android:soundEffectsEnabled="false"
             app:absoluteMaxValue="0"
@@ -231,72 +224,74 @@
 
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/smooth"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:text="Gradient Pixels"
-        app:layout_constraintBottom_toTopOf="@+id/guideline8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline12"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Switch
-        android:id="@+id/square"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:text="Square Pixels"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline12"
-        app:layout_constraintTop_toTopOf="@+id/guideline8" />
-
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center"
-        android:text="Image Size"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        android:background="@drawable/rounded_shape"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_length"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F57C00"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="500"
+            android:textCursorDrawable="@drawable/edit_cursor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edit_width"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/section_label" />
+
+        <EditText
+            android:id="@+id/edit_width"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F57C00"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:inputType="number"
+            android:maxLength="4"
+            android:text="500"
+            android:textCursorDrawable="@drawable/edit_cursor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edit_length"
+            app:layout_constraintTop_toBottomOf="@+id/section_label" />
+
+        <TextView
+            android:id="@+id/section_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:text="Image Size"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.Group
         android:id="@+id/group2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline12"
@@ -306,35 +301,12 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <android.support.constraint.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintGuide_percent="0.125"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Guideline
@@ -347,8 +319,8 @@
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2"
         app:layout_constraintStart_toStartOf="parent" />

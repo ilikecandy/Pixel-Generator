@@ -1,6 +1,8 @@
 package com.ilike.pixelgenerator;
 
+import android.app.AlertDialog;
 import android.app.WallpaperManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,13 +15,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.IOException;
 
-import static com.ilike.pixelgenerator.load_fragment.pixelSizeL;
-import static com.ilike.pixelgenerator.load_fragment.pixelSizeW;
-import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
-import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
+import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeL;
+import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeW;
+import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelLength;
+import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelWidth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         rootView = getLayoutInflater().inflate(R.layout.fragment_load, null);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view1) {
                 mViewPager.setCurrentItem(4);
-                load_fragment.PaintCanvas(getApplicationContext());
+                Fragment_Canvas.PaintCanvas(getApplicationContext());
             }
         });
 
@@ -77,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         backFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //setting buttons start now
                 mViewPager.setCurrentItem(0);
             }
         });
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     WallpaperManager.getInstance(getApplicationContext());
 
             try {
-                wallpaperManager.setBitmap(load_fragment.myBitmap);
+                wallpaperManager.setBitmap(Fragment_Canvas.myBitmap);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -117,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
             //wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
             // ^ NEEDS API 24 FOR SPECIFIC SETTING
         } else if (id == R.id.action_settings) {
-
-
             try {
                 Intent k = new Intent(getApplicationContext(), settings.class);
                 startActivity(k);
@@ -127,9 +126,23 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            pixelSizeWidth.setProgress(pixelSizeW);
-            pixelSizeLength.setProgress(pixelSizeL);
+            tsbPixelWidth.setProgress(pixelSizeW);
+            tsbPixelLength.setProgress(pixelSizeL);
+        } else if (id == R.id.action_about) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("About")
+                    .setMessage("Pixel Generator v0.1.0")
 
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "Thanks for using my app!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_menu_search)
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -149,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    pixel_fragment pixel = new pixel_fragment();
+                    Fragment_Options pixel = new Fragment_Options();
                     return pixel;
 
                 case 1:
@@ -161,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                     return other;
 
                 case 3:
-                    load_fragment load = new load_fragment();
+                    Fragment_Canvas load = new Fragment_Canvas();
                     return load;
 
                 default:
@@ -171,7 +184,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
             return 4;
         }
     }

@@ -31,6 +31,12 @@ public class FolderPicker extends Activity {
     String location = Environment.getExternalStorageDirectory().getAbsolutePath();
     boolean pickFiles;
     Intent receivedIntent;
+    Comparator<FilePojo> comparatorAscending = new Comparator<FilePojo>() {
+        @Override
+        public int compare(FilePojo f1, FilePojo f2) {
+            return f1.getName().compareTo(f2.getName());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,8 @@ public class FolderPicker extends Activity {
             finish();
         }
 
-        tv_title = (TextView) findViewById(R.id.fp_tv_title);
-        tv_location = (TextView) findViewById(R.id.fp_tv_location);
+        tv_title = findViewById(R.id.fp_tv_title);
+        tv_location = findViewById(R.id.fp_tv_location);
 
         try {
             receivedIntent = getIntent();
@@ -83,11 +89,8 @@ public class FolderPicker extends Activity {
     /* Checks if external storage is available to at least read */
     boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
     void loadLists(String location) {
@@ -133,20 +136,11 @@ public class FolderPicker extends Activity {
 
     } // load List
 
-
-    Comparator<FilePojo> comparatorAscending = new Comparator<FilePojo>() {
-        @Override
-        public int compare(FilePojo f1, FilePojo f2) {
-            return f1.getName().compareTo(f2.getName());
-        }
-    };
-
-
     void showList() {
 
         try {
             FolderAdapter FolderAdapter = new FolderAdapter(this, folderAndFileList);
-            ListView listView = (ListView) findViewById(R.id.fp_listView);
+            ListView listView = findViewById(R.id.fp_listView);
             listView.setAdapter(FolderAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

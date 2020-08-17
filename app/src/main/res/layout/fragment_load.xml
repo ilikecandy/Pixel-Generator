@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/stat_notify_error" />
+        app:srcCompat="@drawable/error" />
 
     <ScrollView
         android:id="@+id/scroll"
