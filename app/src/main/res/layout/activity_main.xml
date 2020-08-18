@@ -6,8 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
-    android:screenOrientation="portrait">
+    android:screenOrientation="portrait"
+    tools:context=".MainActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="532dp"
+        android:layout_height="472dp"
+        android:orientation="vertical" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -28,27 +34,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:srcCompat="@android:drawable/ic_menu_view" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline11"
-        android:layout_width="532dp"
-        android:layout_height="472dp"
-        android:orientation="vertical" />
+        android:contentDescription="Generate a background"
+        app:backgroundTint="#4CAF50"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab2"
@@ -61,9 +55,17 @@
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
+        android:contentDescription="Go back to generate options"
         android:src="@android:drawable/ic_menu_revert"
         app:backgroundTint="@color/design_default_color_primary_dark"
         app:layout_anchor="@id/fab"
         app:layout_anchorGravity="bottom" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,16 +40,12 @@ public class settings extends AppCompatActivity {
         ib_folder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(settings.this, FolderPicker.class);
-                //To show a custom title
-                intent.putExtra("title", "Select folder to save");
-
-                //To begin from a selected folder instead of sd card's root folder. Example : Pictures directory
-//                intent.putExtra("location", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
-
-                //To pick files
-                intent.putExtra("pickFiles", false);
-                startActivityForResult(intent, 2);
+                if (PermissionManager.checkAndRequestPermissions(settings.this)) {
+                    Intent intent = new Intent(settings.this, FolderPicker.class);
+                    //To show a custom title
+                    intent.putExtra("title", "Select folder to save");
+                    startActivityForResult(intent, 2);
+                }
             }
         });
 
@@ -72,6 +69,15 @@ public class settings extends AppCompatActivity {
 
             location.setText(folderLocation);
         }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return false;
     }
 
 }

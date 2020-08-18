@@ -17,6 +17,8 @@ import java.util.Random;
 import static android.graphics.Bitmap.createBitmap;
 import static com.ilike.pixelgenerator.Fragment_Options.editLength;
 import static com.ilike.pixelgenerator.Fragment_Options.editWidth;
+import static com.ilike.pixelgenerator.Fragment_Options.maxRGB;
+import static com.ilike.pixelgenerator.Fragment_Options.minRGB;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeL;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeW;
 import static com.ilike.pixelgenerator.Fragment_Options.refreshPixelsXY;
@@ -53,21 +55,10 @@ public class Fragment_Canvas extends Fragment {
 
         Random random = new Random();
 
-        int[] minRGB = new int[3];
-        int[] maxRGB = new int[3];
-
         ImageView drawing;
         drawing = rootView.findViewById(R.id.bitmap);
 
         myBitmap = createBitmap(resX / pixelSizeW, resY / pixelSizeL, Bitmap.Config.ARGB_8888);
-
-        minRGB[0] = (int) Fragment_Options.rsbMinRed.getSelectedMinValue();
-        minRGB[1] = (int) Fragment_Options.rsbMinGreen.getSelectedMinValue();
-        minRGB[2] = (int) Fragment_Options.rsbMinBlue.getSelectedMinValue();
-
-        maxRGB[0] = (int) Fragment_Options.rsbMinRed.getSelectedMaxValue();
-        maxRGB[1] = (int) Fragment_Options.rsbMinGreen.getSelectedMaxValue();
-        maxRGB[2] = (int) Fragment_Options.rsbMinBlue.getSelectedMaxValue();
 
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(resX, resY);
         drawing.setLayoutParams(layoutParams);

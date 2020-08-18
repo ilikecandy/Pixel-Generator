@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,21 +20,13 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import static com.ilike.pixelgenerator.Fragment_Canvas.myBitmap;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeL;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeW;
 import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelLength;
 import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelWidth;
 
 public class MainActivity extends AppCompatActivity {
-
-    /**
-     * Checks if the app has permission to write to device storage
-     * <p>
-     * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity
-     */
-
     private static View rootView;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -102,18 +95,22 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
 
-            SaveBitmapAsImage.SaveBitmapAsImage(getApplicationContext());
+            SaveBitmapAsImage.SaveBitmapAsImage(getApplicationContext(), this);
 
             return true;
         } else if (id == R.id.action_bg) {
-            WallpaperManager wallpaperManager =
-                    WallpaperManager.getInstance(getApplicationContext());
+            if (myBitmap != null) {
+                WallpaperManager wallpaperManager =
+                        WallpaperManager.getInstance(getApplicationContext());
 
-            try {
-                wallpaperManager.setBitmap(Fragment_Canvas.myBitmap);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                try {
+                    wallpaperManager.setBitmap(Fragment_Canvas.myBitmap);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Please generate a background first", Toast.LENGTH_LONG).show();
             }
             //wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
             // ^ NEEDS API 24 FOR SPECIFIC SETTING
@@ -129,20 +126,24 @@ public class MainActivity extends AppCompatActivity {
             tsbPixelWidth.setProgress(pixelSizeW);
             tsbPixelLength.setProgress(pixelSizeL);
         } else if (id == R.id.action_about) {
-            new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("About")
-                    .setMessage("Pixel Generator v0.1.0")
+            try {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("About")
+                        .setMessage("Pixel Generator v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName)
 
-                    // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(), "Thanks for using my app!", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_menu_search)
-                    .show();
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Thanks for using my app!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_menu_search)
+                        .show();
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -187,5 +188,6 @@ public class MainActivity extends AppCompatActivity {
             return 4;
         }
     }
+
 }
 

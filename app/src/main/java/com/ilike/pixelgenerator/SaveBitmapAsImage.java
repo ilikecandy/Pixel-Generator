@@ -1,5 +1,6 @@
 package com.ilike.pixelgenerator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -20,32 +21,37 @@ public class SaveBitmapAsImage {
     static String path;
     static SharedPreferences pref;
 
-    public static void SaveBitmapAsImage(Context context) {
+    public static void SaveBitmapAsImage(Context context, Activity activity) {
+        if (myBitmap != null) {
+            if (PermissionManager.checkAndRequestPermissions(activity)){
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                date = simpleDateFormat.format(new Date());
 
-        String pattern = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        date = simpleDateFormat.format(new Date());
+                pref = context.getSharedPreferences("prefs", MODE_PRIVATE);
+                path = pref.getString("location", "/storage/emulated/0/Pictures/PixelBackgrounds/");
 
-        pref = context.getSharedPreferences("prefs", MODE_PRIVATE);
-        path = pref.getString("location", "/storage/emulated/0/Pictures/PixelBackgrounds/");
+                File appDirectory = new File(path);
+                appDirectory.mkdirs();
+                File file = new File(path, date + ".png");
 
-        File appDirectory = new File(path);
-        appDirectory.mkdirs();
-        File file = new File(path, date + ".png");
+                if (!path.endsWith("/")) {
+                    path += "/";
+                }
+                Toast.makeText(context, "Saved to " + path + date + ".png", Toast.LENGTH_SHORT).show();
 
-        if (!path.endsWith("/") || !path.endsWith("\\")) {
-            path = path + "/";
-        }
-        Toast.makeText(context, "Saved to " + path + date + ".png", Toast.LENGTH_SHORT).show();
-
-        Log.d("path", file.toString());
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
+                Log.d("path", file.toString());
+                try {
+                    FileOutputStream fos = new FileOutputStream(file);
+                    myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.flush();
+                    fos.close();
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Toast.makeText(context, "Please generate a background first", Toast.LENGTH_LONG).show();
         }
 
     }

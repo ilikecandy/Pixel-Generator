@@ -215,6 +215,7 @@ public class FolderPicker extends Activity {
         dialog.setTitle("Enter Folder Name");
 
         final EditText et = new EditText(this);
+        et.setHint("Enter new folder name");
         dialog.setView(et);
 
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Create",

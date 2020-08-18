@@ -4,6 +4,7 @@
     android:background="#fff"
     android:orientation="vertical">
 
+
     <TextView
         android:id="@+id/fp_tv_title"
         android:layout_width="match_parent"
@@ -15,7 +16,6 @@
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="#333"
         android:textSize="24dp" />
-
 
     <TextView
         android:id="@+id/fp_tv_location"
@@ -30,7 +30,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#333"
         android:textSize="16dp" />
-
 
     <LinearLayout
         android:id="@+id/fp_buttonsLayout"

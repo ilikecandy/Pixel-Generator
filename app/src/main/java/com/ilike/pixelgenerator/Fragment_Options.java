@@ -3,11 +3,12 @@ package com.ilike.pixelgenerator;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,9 @@ public class Fragment_Options extends Fragment {
     static int pixelSizeL;
     static int pixelSizeW;
 
+    static int[] minRGB = new int[3];
+    static int[] maxRGB = new int[3];
+
     Button btnCurrentRes;
 
     public static void refreshXY() {
@@ -59,6 +63,16 @@ public class Fragment_Options extends Fragment {
         pixelSizeW = tsbPixelWidth.getProgress();
     }
 
+    public static void refreshRGB() {
+        minRGB[0] = (int) Fragment_Options.rsbMinRed.getSelectedMinValue();
+        minRGB[1] = (int) Fragment_Options.rsbMinGreen.getSelectedMinValue();
+        minRGB[2] = (int) Fragment_Options.rsbMinBlue.getSelectedMinValue();
+
+        maxRGB[0] = (int) Fragment_Options.rsbMinRed.getSelectedMaxValue();
+        maxRGB[1] = (int) Fragment_Options.rsbMinGreen.getSelectedMaxValue();
+        maxRGB[2] = (int) Fragment_Options.rsbMinBlue.getSelectedMaxValue();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,15 +83,24 @@ public class Fragment_Options extends Fragment {
 
         switchSmooth = rootView.findViewById(R.id.smooth);
         switchSquare = rootView.findViewById(R.id.switch_square);
-        switchSmooth.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(85, 139, 47)));
 
+        btnCurrentRes = rootView.findViewById(R.id.btn_currentres);
+
+        rsbMinRed = rootView.findViewById(R.id.rsb_minR);
+        rsbMinGreen = rootView.findViewById(R.id.rsb_minG);
+        rsbMinBlue = rootView.findViewById(R.id.rsb_minB);
+
+        tsbPixelLength = rootView.findViewById(R.id.tsb_pixelL);
+        tsbPixelWidth = rootView.findViewById(R.id.tsb_pizelW);
+
+        switchSmooth.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(85, 139, 47)));
         switchSmooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     switchSmooth.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(85, 139, 47)));
                 } else {
-                    switchSmooth.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255,138,101)));
+                    switchSmooth.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255, 138, 101)));
                 }
             }
         });
@@ -88,19 +111,34 @@ public class Fragment_Options extends Fragment {
                 if (isChecked) {
                     switchSquare.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(85, 139, 47)));
                 } else {
-                    switchSquare.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255,138,101)));
+                    switchSquare.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255, 138, 101)));
                 }
             }
         });
 
-        btnCurrentRes = rootView.findViewById(R.id.btn_currentres);
 
-        rsbMinRed = rootView.findViewById(R.id.rsb_minR);
-        rsbMinGreen = rootView.findViewById(R.id.rsb_minG);
-        rsbMinBlue = rootView.findViewById(R.id.rsb_minB);
+        refreshRGB();
 
-        tsbPixelLength = rootView.findViewById(R.id.tsb_pixelL);
-        tsbPixelWidth = rootView.findViewById(R.id.tsb_pizelW);
+        rsbMinRed.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                refreshRGB();
+            }
+        });
+
+        rsbMinGreen.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                refreshRGB();
+            }
+        });
+
+        rsbMinBlue.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                refreshRGB();
+            }
+        });
 
         editLength.addTextChangedListener(new TextWatcher() {
             @Override
@@ -135,7 +173,7 @@ public class Fragment_Options extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 refreshXY();
-                    tsbPixelWidth.setMax(Integer.parseInt(String.valueOf(resX)));
+                tsbPixelWidth.setMax(Integer.parseInt(String.valueOf(resX)));
 
                 if (String.valueOf(editWidth.getText()).equals("")) {
                     tsbPixelWidth.setMax(1);
@@ -186,7 +224,7 @@ public class Fragment_Options extends Fragment {
                         pixelSizeW = tsbPixelWidth.getProgress();
                     }
                 }
-                    refreshPixelsXY();
+                refreshPixelsXY();
             }
 
             @Override
@@ -248,6 +286,7 @@ public class Fragment_Options extends Fragment {
 
         return screenInformation;
     }
+
 }
 
 
