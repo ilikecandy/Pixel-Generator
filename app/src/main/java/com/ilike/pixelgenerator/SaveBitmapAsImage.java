@@ -21,7 +21,8 @@ public class SaveBitmapAsImage {
     static String path;
     static SharedPreferences pref;
 
-    public static void SaveBitmapAsImage(Context context, Activity activity) {
+    public static void SaveBitmapAsImage(Context context, Activity activity, Bitmap.CompressFormat format,
+                                         int quality) {
         if (myBitmap != null) {
             if (PermissionManager.checkAndRequestPermissions(activity)){
                 String pattern = "yyyy-MM-dd HH:mm:ss";
@@ -33,20 +34,21 @@ public class SaveBitmapAsImage {
 
                 File appDirectory = new File(path);
                 appDirectory.mkdirs();
-                File file = new File(path, date + ".png");
+                File file = new File(path, date + "." + format.toString().toLowerCase());
 
                 if (!path.endsWith("/")) {
                     path += "/";
                 }
-                Toast.makeText(context, "Saved to " + path + date + ".png", Toast.LENGTH_SHORT).show();
 
                 Log.d("path", file.toString());
                 try {
                     FileOutputStream fos = new FileOutputStream(file);
-                    myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    myBitmap.compress(format, quality, fos);
                     fos.flush();
                     fos.close();
+                    Toast.makeText(context, "Saved to " + path + date + "." + format.toString().toLowerCase(), Toast.LENGTH_SHORT).show();
                 } catch (java.io.IOException e) {
+                    Toast.makeText(context, "Error saving background", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }

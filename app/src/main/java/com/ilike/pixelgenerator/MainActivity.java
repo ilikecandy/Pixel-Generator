@@ -6,13 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,12 +31,12 @@ import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelWidth;
 public class MainActivity extends AppCompatActivity {
     private static View rootView;
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     /**
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    FloatingActionButton backFab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +72,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton backFab = findViewById(R.id.fab2);
+        backFab = findViewById(R.id.fab2);
         backFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mViewPager.setCurrentItem(0);
+            }
+        });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                visibleSlide = i;
+                invalidateOptionsMenu();
+
+                if (i == 0) {
+                    backFab.hide();
+                } else {
+                    backFab.show();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
             }
         });
 
@@ -92,10 +120,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-
-            SaveBitmapAsImage.SaveBitmapAsImage(getApplicationContext(), this);
+            saveDialog sd = new saveDialog();
+            sd.showDialog(this, this);
 
             return true;
         } else if (id == R.id.action_bg) {
@@ -153,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
+    static int visibleSlide = -1;
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -180,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
                 default:
                     return null;
+
             }
         }
 
@@ -187,6 +217,22 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return 4;
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem bg = menu.findItem(R.id.action_bg);
+        MenuItem save = menu.findItem(R.id.action_save);
+
+        if (visibleSlide == 3) {
+            bg.setVisible(true);
+            save.setVisible(true);
+        } else {
+            bg.setVisible(false);
+            save.setVisible(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
 }

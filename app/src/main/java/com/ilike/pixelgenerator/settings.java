@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +62,7 @@ public class settings extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(resultCode, resultCode, intent);
         if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
 
             String folderLocation = intent.getExtras().getString("data");
