@@ -1,175 +1,109 @@
 package com.ilike.pixelgenerator;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.WallpaperManager;
-import android.content.Context;
-import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import static com.ilike.pixelgenerator.load_fragment.dialog;
-import static com.ilike.pixelgenerator.load_fragment.myBitmap;
-import static com.ilike.pixelgenerator.load_fragment.newBitmap;
-import static com.ilike.pixelgenerator.load_fragment.paint;
-import static com.ilike.pixelgenerator.load_fragment.pixelSizeL;
-import static com.ilike.pixelgenerator.load_fragment.pixelSizeW;
-import static com.ilike.pixelgenerator.load_fragment.set;
-import static com.ilike.pixelgenerator.pixel_fragment.length;
-import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeLength;
-import static com.ilike.pixelgenerator.pixel_fragment.pixelSizeWidth;
-import static com.ilike.pixelgenerator.pixel_fragment.width;
-import static com.ilike.pixelgenerator.pixel_fragment.x;
-import static com.ilike.pixelgenerator.pixel_fragment.y;
-
+import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeL;
+import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeW;
+import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelLength;
+import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelWidth;
 
 public class MainActivity extends AppCompatActivity {
-
-    static String date;
-
-    static String path;
-
-
+    private static View rootView;
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
 
-    // Storage Permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
-    static SharedPreferences pref;
-    static SharedPreferences.Editor editor;
-
-
+    FloatingActionButton backFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        path = "/storage/emulated/0/Pictures/PixelBackgrounds/";
+        rootView = getLayoutInflater().inflate(R.layout.fragment_load, null);
 
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-
-
-
         FloatingActionButton fab = findViewById(R.id.fab);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    boolean clicked = false;
-                    @Override
-                    public void onClick(View view) {
-
-                        //setting buttons start now
-                        if (!length.getText().toString().equals("") && !width.getText().toString().equals("")) {
-                            if (Integer.parseInt(length.getText().toString()) != 0 &&
-                                    Integer.parseInt(width.getText().toString()) != 0) {
-
-                                if (clicked) {
-                                    mViewPager.setCurrentItem(4);
-                                    Toast t = Toast.makeText(MainActivity.this,
-                                            "Regenerating", Toast.LENGTH_SHORT);
-                                    t.show();
-                                    //load_fragment.startDialog();
-                                    paint();
-                                    t.cancel();
-                                } else {
-                                    mViewPager.setCurrentItem(4);
-                                    Toast t = Toast.makeText(MainActivity.this,
-                                            "Generating", Toast.LENGTH_SHORT);
-                                    t.show();
-                                    //load_fragment.startDialog();
-                                    paint();
-                                    t.cancel();
-                                    clicked = true;
-                                }
-                            } else {
-                                Toast.makeText(MainActivity.this,
-                                        "Check your settings and try again.", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(MainActivity.this,
-                                    "Check your settings and try again.", Toast.LENGTH_SHORT).show();
-                        }
-
-
-
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                mViewPager.setCurrentItem(4);
+                Fragment_Canvas.PaintCanvas(getApplicationContext());
             }
         });
 
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener() {
-            boolean clicked = false;
-
+        backFab = findViewById(R.id.fab2);
+        backFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //setting buttons start now
                 mViewPager.setCurrentItem(0);
+            }
+        });
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                visibleSlide = i;
+                invalidateOptionsMenu();
+
+                if (i == 0) {
+                    backFab.hide();
+                } else {
+                    backFab.show();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
 
             }
         });
 
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -185,55 +119,15 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-
-            /*
-            String name = "test" + "." + ".png";
-            FileOutputStream fileOutputStream;
-            try {
-                FileOutputStream out = this.openFileOutput(name, Context.MODE_PRIVATE);
-                myBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Toast.makeText(this, "Failed! Try again?", Toast.LENGTH_SHORT).show();
-
-                e.printStackTrace();
-            }
-
-             */
-
-/*
-            try (FileOutputStream out = new FileOutputStream("/storage/emulated/0/PixelBackgrounds/image")) {
-                load_fragment.myBitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                // PNG is a lossless format, the compression factor (100) is ignored
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            */
-
-
-            mSectionsPagerAdapter.save();
-
+            SaveDialog sd = new SaveDialog();
+            sd.showDialog(this, this);
 
             return true;
         } else if (id == R.id.action_bg) {
-            WallpaperManager wallpaperManager =
-                    WallpaperManager.getInstance(getApplicationContext());
-
-            try {
-                wallpaperManager.setBitmap(newBitmap);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            //wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-            // ^ NEEDS API 24 FOR SPECIFIC SETTING
+            WallpaperDialog wd = new WallpaperDialog();
+            wd.showDialog(this, this);
         } else if (id == R.id.action_settings) {
-
-
             try {
                 Intent k = new Intent(getApplicationContext(), settings.class);
                 startActivity(k);
@@ -242,73 +136,38 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            pixelSizeWidth.setProgress(pixelSizeW);
-            pixelSizeLength.setProgress(pixelSizeL);
+            tsbPixelWidth.setProgress(pixelSizeW);
+            tsbPixelLength.setProgress(pixelSizeL);
+        } else if (id == R.id.action_about) {
+            try {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("About")
+                        .setMessage("Pixel Generator " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName)
 
-
-
-
-
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Thanks for using my app!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_menu_search)
+                        .show();
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     /**
-     * Checks if the app has permission to write to device storage
-     *
-     * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-
-            );
-        }
-    }
-
-    /*
-
-
-    public static class PlaceholderFragment extends Fragment {
-
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_pixel, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    } /*
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
+    static int visibleSlide = -1;
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -317,66 +176,50 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-           switch (position) {
-               case 0: pixel_fragment pixel = new pixel_fragment();
-                   return pixel;
+            switch (position) {
+                case 0:
+                    Fragment_Options pixel = new Fragment_Options();
+                    return pixel;
 
-               case 1: anim_fragment anim = new anim_fragment();
-                   return anim;
+                case 1:
+                    anim_fragment anim = new anim_fragment();
+                    return anim;
 
-               case 2: other_fragment other = new other_fragment();
-                   return other;
+                case 2:
+                    other_fragment other = new other_fragment();
+                    return other;
 
-               case 3: load_fragment load = new load_fragment();
-                   return load;
+                case 3:
+                    Fragment_Canvas load = new Fragment_Canvas();
+                    return load;
 
-                   default:
-                       return null;
-           }
+                default:
+                    return null;
+
+            }
         }
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
             return 4;
         }
+    }
 
-        public void save() {
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem bg = menu.findItem(R.id.action_bg);
+        MenuItem save = menu.findItem(R.id.action_save);
 
-            String pattern = "yyyy-MM-dd HH:mm:ss";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-            date = simpleDateFormat.format(new Date());
-
-            path = pref.getString("location", "/storage/emulated/0/Pictures/PixelBackgrounds/");
-
-            verifyStoragePermissions(MainActivity.this);
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            //File directory = cw.getDir("imageDir", MODE_PRIVATE);
-            File appDirectory = new File(path);
-            appDirectory.mkdirs();
-            File file = new File(path, date + ".png");
-            Toast.makeText(MainActivity.this, "Saved to " + path + date + ".png", Toast.LENGTH_SHORT).show();
-
-            Log.d("path", file.toString());
-                try {
-                    FileOutputStream fos = new FileOutputStream(file);
-                    newBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.flush();
-                    fos.close();
-                } catch (java.io.IOException e) {
-                    e.printStackTrace();
-                }
-
+        if (visibleSlide == 3) {
+            bg.setVisible(true);
+            save.setVisible(true);
+        } else {
+            bg.setVisible(false);
+            save.setVisible(false);
         }
 
-
+        return super.onPrepareOptionsMenu(menu);
     }
 
-
-
-
-
-
-
-    }
+}
 
