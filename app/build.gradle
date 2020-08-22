@@ -7,8 +7,8 @@ android {
         applicationId "com.ilike.pixelgenerator"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "0.1.0"
+        versionCode 2
+        versionName "b0.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,5 +29,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.github.warkiz.tickseekbar:tickseekbar:0.1.4'
     implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
 //    implementation 'lib.kashif:folderpicker:2.4'
 }

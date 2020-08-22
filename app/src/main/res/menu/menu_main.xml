@@ -18,14 +18,14 @@
     <item
         android:id="@+id/action_save"
         android:icon="@drawable/save"
-        android:title=""
+        android:title="Save Image"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_bg"
         android:icon="@drawable/wallpaper"
-        android:title=""
+        android:title="Set Background"
         android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>

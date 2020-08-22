@@ -1,28 +1,26 @@
 package com.ilike.pixelgenerator;
 
-import android.app.AlertDialog;
-import android.app.WallpaperManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import java.io.IOException;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import static com.ilike.pixelgenerator.Fragment_Canvas.myBitmap;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeL;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeW;
 import static com.ilike.pixelgenerator.Fragment_Options.tsbPixelLength;
@@ -45,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     FloatingActionButton backFab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,26 +120,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_save) {
-            saveDialog sd = new saveDialog();
+            SaveDialog sd = new SaveDialog();
             sd.showDialog(this, this);
 
             return true;
         } else if (id == R.id.action_bg) {
-            if (myBitmap != null) {
-                WallpaperManager wallpaperManager =
-                        WallpaperManager.getInstance(getApplicationContext());
-
-                try {
-                    wallpaperManager.setBitmap(Fragment_Canvas.myBitmap);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Please generate a background first", Toast.LENGTH_LONG).show();
-            }
-            //wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-            // ^ NEEDS API 24 FOR SPECIFIC SETTING
+            WallpaperDialog wd = new WallpaperDialog();
+            wd.showDialog(this, this);
         } else if (id == R.id.action_settings) {
             try {
                 Intent k = new Intent(getApplicationContext(), settings.class);
@@ -156,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("About")
-                        .setMessage("Pixel Generator v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName)
+                        .setMessage("Pixel Generator " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName)
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.

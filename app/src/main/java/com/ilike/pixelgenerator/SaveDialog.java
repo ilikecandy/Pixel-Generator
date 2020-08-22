@@ -1,20 +1,26 @@
 package com.ilike.pixelgenerator;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class saveDialog {
-    public void showDialog(final Activity activity, final Context context){
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.warkiz.tickseekbar.TickSeekBar;
+
+public class SaveDialog {
+    Bitmap.CompressFormat cf;
+
+    public void showDialog(final AppCompatActivity activity, final Context context) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
         dialog.setContentView(R.layout.activity_save_dialog);
 
         String[] types = {".png", ".jpeg", ".webp"};
@@ -23,20 +29,36 @@ public class saveDialog {
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filetype.setAdapter(aa);
 
+        final TickSeekBar quality = dialog.findViewById(R.id.tsb_quality);
+
+        cf = Bitmap.CompressFormat.PNG;
+
+        filetype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (filetype.getSelectedItem() == ".png") {
+                    cf = Bitmap.CompressFormat.PNG;
+                    quality.setEnabled(false);
+                } else if (filetype.getSelectedItem() == ".jpeg") {
+                    cf = Bitmap.CompressFormat.JPEG;
+                    quality.setEnabled(true);
+                } else if (filetype.getSelectedItem() == ".webp") {
+                    cf = Bitmap.CompressFormat.WEBP;
+                    quality.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         Button save = dialog.findViewById(R.id.btn_save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap.CompressFormat cf = Bitmap.CompressFormat.PNG;
-                if (filetype.getSelectedItem() == ".png") {
-                    cf = Bitmap.CompressFormat.PNG;
-                } else if (filetype.getSelectedItem() == ".jpeg") {
-                    cf = Bitmap.CompressFormat.JPEG;
-                } else if (filetype.getSelectedItem() == ".webp") {
-                    cf = Bitmap.CompressFormat.WEBP;
-                }
-
-                SaveBitmapAsImage.SaveBitmapAsImage(context, activity, cf , 100);
+                SaveBitmapAsImage.SaveBitmapAsImage(context, activity, cf, quality.getProgress());
                 dialog.dismiss();
             }
         });

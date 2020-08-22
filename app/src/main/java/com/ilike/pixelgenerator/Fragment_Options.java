@@ -3,8 +3,6 @@ package com.ilike.pixelgenerator;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -15,6 +13,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+
+import androidx.fragment.app.Fragment;
 
 import com.warkiz.tickseekbar.OnSeekChangeListener;
 import com.warkiz.tickseekbar.SeekParams;
@@ -90,7 +90,15 @@ public class Fragment_Options extends Fragment {
         rsbMinBlue = rootView.findViewById(R.id.rsb_minB);
 
         tsbPixelLength = rootView.findViewById(R.id.tsb_pixelL);
-        tsbPixelWidth = rootView.findViewById(R.id.tsb_pizelW);
+        tsbPixelWidth = rootView.findViewById(R.id.tsb_pixelW);
+
+        if (pixelSizeL != 0) {
+            tsbPixelLength.setMax(pixelSizeL);
+        }
+
+        if (pixelSizeW != 0) {
+            tsbPixelWidth.setMax(pixelSizeW);
+        }
 
         switchSmooth.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(85, 139, 47)));
         switchSmooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -287,5 +295,3 @@ public class Fragment_Options extends Fragment {
     }
 
 }
-
-

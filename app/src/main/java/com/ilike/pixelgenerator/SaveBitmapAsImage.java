@@ -1,11 +1,12 @@
 package com.ilike.pixelgenerator;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,10 +22,11 @@ public class SaveBitmapAsImage {
     static String path;
     static SharedPreferences pref;
 
-    public static void SaveBitmapAsImage(Context context, Activity activity, Bitmap.CompressFormat format,
+    public static void SaveBitmapAsImage(Context context, AppCompatActivity activity, Bitmap.CompressFormat format,
                                          int quality) {
         if (myBitmap != null) {
-            if (PermissionManager.checkAndRequestPermissions(activity)){
+            PermissionManager.checkAndRequestPermissions(activity);
+            if (PermissionManager.checkAndRequestPermissions(activity)) {
                 String pattern = "yyyy-MM-dd HH:mm:ss";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
                 date = simpleDateFormat.format(new Date());

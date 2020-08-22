@@ -4,13 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import java.util.Random;
 
@@ -22,6 +23,7 @@ import static com.ilike.pixelgenerator.Fragment_Options.minRGB;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeL;
 import static com.ilike.pixelgenerator.Fragment_Options.pixelSizeW;
 import static com.ilike.pixelgenerator.Fragment_Options.refreshPixelsXY;
+import static com.ilike.pixelgenerator.Fragment_Options.refreshRGB;
 import static com.ilike.pixelgenerator.Fragment_Options.refreshXY;
 import static com.ilike.pixelgenerator.Fragment_Options.resX;
 import static com.ilike.pixelgenerator.Fragment_Options.resY;
@@ -52,6 +54,7 @@ public class Fragment_Canvas extends Fragment {
 
         refreshXY();
         refreshPixelsXY();
+        refreshRGB();
 
         Random random = new Random();
 

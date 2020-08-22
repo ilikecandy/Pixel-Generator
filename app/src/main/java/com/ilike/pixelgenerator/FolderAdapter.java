@@ -1,6 +1,5 @@
 package com.ilike.pixelgenerator;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +7,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class FolderAdapter extends ArrayAdapter<FilePojo> {
 
-    Activity context;
+    AppCompatActivity context;
     ArrayList<FilePojo> dataList;
 
-    public FolderAdapter(Activity context, ArrayList<FilePojo> dataList) {
+    public FolderAdapter(AppCompatActivity context, ArrayList<FilePojo> dataList) {
 
         super(context, R.layout.fp_filerow, dataList);
         this.context = context;

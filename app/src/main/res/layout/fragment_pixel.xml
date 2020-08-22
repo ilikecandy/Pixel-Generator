@@ -25,20 +25,22 @@
         <Switch
             android:id="@+id/smooth"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="Merge Pixels"
-            android:thumbTint="#FF8A65" />
+            android:thumbTint="#FF8A65"
+            android:layout_weight="0.5"/>
 
         <Switch
             android:id="@+id/switch_square"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="Square Pixels"
-            android:thumbTint="#FF8A65" />
+            android:thumbTint="#FF8A65"
+            android:layout_weight="0.5"/>
     </LinearLayout>
 
     <LinearLayout
@@ -118,7 +120,7 @@
             app:tsb_show_tick_texts="below"
             app:tsb_thumb_color="#0277BD"
             app:tsb_thumb_size="16dp"
-            app:tsb_thumb_text_color="#0097A7"
+            app:tsb_thumb_text_color="@android:color/black"
             app:tsb_tick_texts_size="16dp"
             app:tsb_track_progress_color="#303F9F"
             app:tsb_track_progress_size="6dp" />
@@ -134,13 +136,13 @@
             android:text="Pixel Width"
             android:textColor="@android:color/black"
             android:textSize="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/tsb_pizelW"
+            app:layout_constraintBottom_toTopOf="@+id/tsb_pixelW"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tsb_pixelL" />
 
         <com.warkiz.tickseekbar.TickSeekBar
-            android:id="@+id/tsb_pizelW"
+            android:id="@+id/tsb_pixelW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,7 +155,7 @@
             app:tsb_show_tick_texts="below"
             app:tsb_thumb_color="#0277BD"
             app:tsb_thumb_size="16dp"
-            app:tsb_thumb_text_color="#0097A7"
+            app:tsb_thumb_text_color="@android:color/black"
             app:tsb_tick_texts_size="16dp"
             app:tsb_track_progress_color="#303F9F"
             app:tsb_track_progress_size="6dp" />

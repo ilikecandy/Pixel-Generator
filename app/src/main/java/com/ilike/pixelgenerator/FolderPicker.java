@@ -1,7 +1,5 @@
 package com.ilike.pixelgenerator;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +11,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class FolderPicker extends Activity {
+public class FolderPicker extends AppCompatActivity {
 
     //Folders and Files have separate lists because we show all folders first then files
     ArrayList<FilePojo> folderAndFileList;
