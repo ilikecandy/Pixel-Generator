@@ -22,6 +22,8 @@ import com.warkiz.tickseekbar.TickSeekBar;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
+import java.util.ArrayList;
+
 public class Fragment_Options extends Fragment {
 
     static EditText editLength;
@@ -55,6 +57,13 @@ public class Fragment_Options extends Fragment {
         if (!String.valueOf(editWidth.getText()).equals("") && !String.valueOf(editWidth.getText()).equals("0")) {
             resX = Integer.parseInt(editWidth.getText().toString());
         }
+
+        tsbPixelWidth.setTickCount(findFactors(resX).length);
+        tsbPixelWidth.customTickTexts(findFactors(resX));
+        tsbPixelWidth.
+
+        tsbPixelWidth.setTickCount(findFactors(resX).length);
+        tsbPixelWidth.customTickTexts(findFactors(resX));
     }
 
     public static void refreshPixelsXY() {
@@ -91,6 +100,7 @@ public class Fragment_Options extends Fragment {
 
         tsbPixelLength = rootView.findViewById(R.id.tsb_pixelL);
         tsbPixelWidth = rootView.findViewById(R.id.tsb_pixelW);
+
 
         if (pixelSizeL != 0) {
             tsbPixelLength.setMax(pixelSizeL);
@@ -196,6 +206,8 @@ public class Fragment_Options extends Fragment {
         });
 
 
+
+
         tsbPixelLength.setOnSeekChangeListener(new OnSeekChangeListener() {
             @Override
             public void onSeeking(SeekParams seekParams) {
@@ -294,4 +306,17 @@ public class Fragment_Options extends Fragment {
         return screenInformation;
     }
 
+    private static String[] findFactors(int number) {
+        ArrayList<String> factors = new ArrayList<>();
+        for (int i = 1; i <= number; ++i) {
+
+            if (number % i == 0) {
+                factors.add(String.valueOf(i));
+            }
+        }
+
+        String[] factorsArray = factors.toArray(new String[factors.size()]);
+
+        return factorsArray;
+    }
 }
